@@ -1,0 +1,79 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        working-directory: src/build
+        run: pip install -r requirements.txt
+
+      - name: Run build script
+        env:
+          KAGGLE_TOKEN: ${{ secrets.KAGGLE_TOKEN }}
+        working-directory: src/build
+        run: python main.py
+
+      - name: Upload flights.db
+        uses: actions/upload-artifact@v3
+        with:
+          name: flights-db
+          path: src/build/flights.db
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        working-directory: src/run
+        run: pip install -r requirements.txt
+
+      - name: Generate Dockerfile
+        working-directory: src/run
+        run: langgraph dockerfile Dockerfile
+
+      - name: Download flights.db
+        uses: actions/download-artifact@v3
+        with:
+          name: flights-db
+          path: src/run/flights.db
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Docker image
+        working-directory: src/run
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}/nlp-service:${{ github.sha }} .
+          docker push ghcr.io/${{ github.repository }}/nlp-service:${{ github.sha }}

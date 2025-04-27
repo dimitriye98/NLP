@@ -1,3 +1,4 @@
 kagglehub==0.3.12
 python-dotenv==1.1.0
 sqlalchemy==2.0.28
+langgraph-cli[inmem]==0.2.7

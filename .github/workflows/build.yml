@@ -40,7 +40,7 @@ jobs:
         run: langgraph dockerfile Dockerfile
 
       - name: Download flights.db
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v9
         with:
           workflow: build-db.yml
           name: flights-db

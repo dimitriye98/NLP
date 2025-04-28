@@ -25,7 +25,12 @@ python load_data.py
 
 The script will download the flight prices dataset and create a SQLite database (default: `flights.db`).
 
-4. Run the agent: (Accessible on [https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024](https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024))
+4. Make the database read-only. (Not strictly required, however better demonstrates the security posture of how a production deployment with a read-only db user would work.)
+```bash
+chmod 444 flights.db
+```
+
+5. Run the agent: (Accessible on [https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024](https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024))
 ```bash
 langgraph dev
 ```

@@ -40,6 +40,7 @@ def create_db_chain(db_path: Union[str, Path] = "flights.db") -> object:
     toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 
     tools = toolkit.get_tools()
+    del tools[2] # Remove the list tables tool, not necessary since we work with a single table
 
     # prompt_template = hub.pull("langchain-ai/sql-agent-system-prompt")
     # assert len(prompt_template.messages) == 1

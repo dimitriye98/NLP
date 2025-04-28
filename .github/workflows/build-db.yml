@@ -1,0 +1,41 @@
+name: Build Database
+
+on:
+  push:
+    paths:
+      - 'src/build/**'
+    branches: [ main ]
+  pull_request:
+    paths:
+      - 'src/build/**'
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        working-directory: src/build
+        run: pip install -r requirements.txt
+
+      - name: Run build script
+        working-directory: src/build
+        run: python main.py
+
+      - name: Upload flights.db
+        uses: actions/upload-artifact@v4
+        with:
+          name: flights-db
+          path: src/build/flights.db
+          retention-days: 1

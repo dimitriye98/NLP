@@ -19,7 +19,7 @@ load_dotenv()
 # Initialize database connection
 db = SQLDatabase.from_uri(f"sqlite:///{os.getenv('DB_PATH')}")
 llm = lambda t: ChatTogether(
-    model="Qwen/Qwen2.5-VL-72B-Instruct",
+    model=os.getenv("TOGETHER_MODEL", "mistralai/Mixtral-8x7B-Instruct-v0.1"),
     temperature=t,
     max_tokens=1000
 )

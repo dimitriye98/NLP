@@ -18,6 +18,7 @@ Create a `.env` file or set environment variables directly:
 KAGGLE_DATASET=dilwong/flightprices  # Optional: Override default dataset
 DB_PATH=flights.db  # Optional: Override default database path
 TOGETHER_API_KEY=your_together_api_key  # Your Together API key
+TOGETHER_MODEL=mistralai/Mixtral-8x7B-Instruct-v0.1  # Optional: Override default model
 ```
 
 3. Run the data loader:

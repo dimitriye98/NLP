@@ -6,6 +6,8 @@ This project downloads flight price data from Kaggle and stores it in a SQLite d
 
 1. Install the required dependencies: (Only Python 3.11 has been tested, please do not use a different version)
 ```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 pip install -r requirements-build.txt
 ```

@@ -1,5 +1,6 @@
 from typing import TypedDict, Union, Annotated, Sequence
 from enum import Enum
+import os
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, ToolCall, ToolMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -11,8 +12,12 @@ from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph.message import add_messages
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Initialize database connection
-db = SQLDatabase.from_uri("sqlite:///flights.db")
+db = SQLDatabase.from_uri(f"sqlite:///{os.getenv('DB_PATH')}")
 llm = lambda t: ChatTogether(
     model="Qwen/Qwen2.5-VL-72B-Instruct",
     temperature=t,

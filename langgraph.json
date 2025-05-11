@@ -1,6 +1,6 @@
 {
 	"dependencies": ["."],
 	"graphs": {
-		"chat": "./chain.py:agent"
+		"chat": "./graph.py:app"
 	}
 }

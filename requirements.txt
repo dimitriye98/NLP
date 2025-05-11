@@ -1,7 +1,8 @@
-langchain==0.3.24
+duckduckgo-search==8.0.1
 langchain-community==0.3.22
-langgraph==0.3.33
-langgraph-cli[inmem]==0.2.7
 langchain-together==0.3.0
+langchain==0.3.24
+langgraph-cli[inmem]==0.2.7
+langgraph==0.3.33
 python-dotenv==1.1.0
 sqlalchemy==2.0.28
